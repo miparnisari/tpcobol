@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{535C04D7-A2A5-47C7-83E0-B340A995CD1F}") = "CobolTest", "CobolTest\CobolTest.cblproj", "{E5732DD3-ED10-410C-9A9E-3E4818A12454}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5732DD3-ED10-410C-9A9E-3E4818A12454}.Debug|x86.ActiveCfg = Debug|x86
+		{E5732DD3-ED10-410C-9A9E-3E4818A12454}.Debug|x86.Build.0 = Debug|x86
+		{E5732DD3-ED10-410C-9A9E-3E4818A12454}.Release|x86.ActiveCfg = Release|x86
+		{E5732DD3-ED10-410C-9A9E-3E4818A12454}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
