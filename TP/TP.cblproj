@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>CobolTest</RootNamespace>
     <MFProjectType>Native</MFProjectType>
-    <StartupObject>myfirstprogram</StartupObject>
+    <StartupObject>tpcobolparte1</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>.\bin\x86\Debug\</OutputPath>
@@ -29,7 +29,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="calledprogram.cbl" />
-    <Compile Include="myfirstprogram.cbl" />
+    <Compile Include="tpcobolparte1.cbl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Micro Focus\Visual COBOL\v1.0\MicroFocus.COBOL.targets" />
 </Project>

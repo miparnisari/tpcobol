@@ -1,5 +1,5 @@
        IDENTIFICATION division.
-       PROGRAM-ID. myfirstprogram.
+         PROGRAM-ID. tpcobolparte1.
 
        ENVIRONMENT division.
 
@@ -7,16 +7,19 @@
    
        INPUT-OUTPUT section.
          FILE-CONTROL.
-       
-           SELECT file-write ASSIGN TO DISK
+           SELECT alquileresmae ASSIGN TO DISK
            ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA division.
         FILE section.
-         FD file-write
-           VALUE OF FILE-ID IS "filedemo.txt".
-       01 filerec.
-        02 everything PIC X(32).
+         FD alquileresmae
+           VALUE OF FILE-ID IS "alquileresmaestro.dat".
+       01 alquileresmae-rec.
+        02 alq-patente PIC X(6).  
+        02 alq-fecha PIC 9(8).
+        02 alq-tipo-doc PIC X. *> D=DNI, C=CEDULA IDENTIDAD, R=LIBRETA, P=PASAPORTE, L=LICENCIA
+        02 alq-nro-doc PIC X(20).
+        02 alq-importe PIC 9(4)V99. *> 1234.99
   
        WORKING-STORAGE section.
        01 rec.
@@ -30,9 +33,9 @@
        01 calledprog     pic x(20) value "calledprogram".
 
        PROCEDURE division.
-       begin.
+       actualizamaestro.
 
-           OPEN OUTPUT file-write.
+           OPEN OUTPUT alquileresmae.
 
            PERFORM UNTIL wish = 'N' OR 'n'
             DISPLAY "Enter your name (up to 20 chars):"
@@ -48,13 +51,10 @@
             DISPLAY "The sum is:"
             DISPLAY total
 
-            MOVE rec TO filerec
-            WRITE filerec
-
             DISPLAY "Would you like to continue? (Y/N): "
             ACCEPT wish
        
            call calledprog.
       
-           CLOSE file-write.
+           CLOSE alquileresmae.
            STOP RUN.

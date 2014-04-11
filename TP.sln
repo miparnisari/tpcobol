@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{535C04D7-A2A5-47C7-83E0-B340A995CD1F}") = "CobolTest", "CobolTest\CobolTest.cblproj", "{E5732DD3-ED10-410C-9A9E-3E4818A12454}"
+Project("{535C04D7-A2A5-47C7-83E0-B340A995CD1F}") = "TP", "TP\TP.cblproj", "{E5732DD3-ED10-410C-9A9E-3E4818A12454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
