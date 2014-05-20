@@ -9,7 +9,7 @@
        file-control.
        
        select alquileresmae
-           assign to disk "..\..\alquileresmae.dat"
+           assign to disk "..\..\alquileres.dat"
            organization is line sequential
            file status is fs-alquileresmae.
            
@@ -48,7 +48,7 @@
        
        77 fs-alquileresmae     pic xx.
        77 alquileresmae-eof    pic xx   value "NO".
-           88 eofmae                    value "SI".
+           88 eofalquileres             value "SI".
            
        77 fs-autos             pic xx.
        77 autos-eof            pic xx   value "NO".
@@ -110,13 +110,13 @@
            
        01 encabezado2      pic x(80)   value "                Listado Estadistico de Alquileres por Mes                 ".
        01 encabezado3      pic x(80)   value all spaces.
-       01 encabezado4      pic x(80)   value "Marca         Ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic        Total".
+       01 encabezado4      pic x(80)   value "Marca                   Ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic TOTAL".
        01 encabezado5      pic x(80)   value all "-".
 
        01 matrizmarcaxmes.
            03  matrizmarcaxmes-fila    occurs 300 times.
                05  matrizmarcaxmes-col occurs  12 times.
-                   07  matrizmarcaxmes-elem    pic 9(3).
+                   07  matrizmarcaxmes-elem    pic 9(3) value 000.
        
        01 vecmarcas.
            03  vecmarcas-elem  occurs 300 times
@@ -133,7 +133,6 @@
            03  vectotalmarca-elem  occurs 300 times pic 9(4).
            
        procedure division.
-        
            perform abrir-archivos.
            perform cargar-marcas.
            perform imprimir-encabezado-estadisticas.
@@ -158,7 +157,6 @@
        leer-autos.
            read autos record
                at end move "SI" to autos-eof.
-           display "MARCA:" aut-marca.
            
        leer-alquileresmae.
            read alquileresmae record
@@ -190,14 +188,14 @@
        
        calcular-estadisticas.
            perform leer-alquileresmae.
-           perform proceso until eofautos.
+           perform proceso until eofalquileres.
            
        
        proceso.
            set ind to 1.
            move corresponding alq-fech to fecha.
            search vecmarcas-elem
-               when aut-marca = marca of vecmarcas(ind)
+               when alq-patente = patente of vecmarcas(ind)
                    set ws-indice-marca to ind
            end-search.
            
@@ -213,27 +211,28 @@
            perform imprimir-fila-marca until ws-i > 300 or vecmarcas-elem(ws-i) = "".
            
        imprimir-fila-marca.
-           move vecmarcas-elem(ws-i) to (marca of detalle).
-           perform imprimir-col-mes until ws-i > 300 or vecmarcas-elem(ws-i) = ""
-           display detalle.
-           add 1 to ws-i.
+           perform imprimir-col-mes until ws-i > 300 or vecmarcas-elem(ws-i) = "".
            
        imprimir-col-mes.
-           move matrizmarcaxmes-elem(ws-i, 1) to det-ene.
-           move matrizmarcaxmes-elem(ws-i, 2) to det-feb.
-           move matrizmarcaxmes-elem(ws-i, 3) to det-mar.
-           move matrizmarcaxmes-elem(ws-i, 4) to det-abr.
-           move matrizmarcaxmes-elem(ws-i, 5) to det-may.
-           move matrizmarcaxmes-elem(ws-i, 6) to det-jun.
-           move matrizmarcaxmes-elem(ws-i, 7) to det-jul.
-           move matrizmarcaxmes-elem(ws-i, 8) to det-ago.
-           move matrizmarcaxmes-elem(ws-i, 9) to det-sep.
-           move matrizmarcaxmes-elem(ws-i, 10) to det-oct.
-           move matrizmarcaxmes-elem(ws-i, 11) to det-nov.
-           move matrizmarcaxmes-elem(ws-i, 12) to det-dec.
+           move vecmarcas-elem(ws-i) to (marca of detalle).
+           move matrizmarcaxmes-col(ws-i, 1) to det-ene.
+           move matrizmarcaxmes-col(ws-i, 2) to det-feb.
+           move matrizmarcaxmes-col(ws-i, 3) to det-mar.
+           move matrizmarcaxmes-col(ws-i, 4) to det-abr.
+           move matrizmarcaxmes-col(ws-i, 5) to det-may.
+           move matrizmarcaxmes-col(ws-i, 6) to det-jun.
+           move matrizmarcaxmes-col(ws-i, 7) to det-jul.
+           move matrizmarcaxmes-col(ws-i, 8) to det-ago.
+           move matrizmarcaxmes-col(ws-i, 9) to det-sep.
+           move matrizmarcaxmes-col(ws-i, 10) to det-oct.
+           move matrizmarcaxmes-col(ws-i, 11) to det-nov.
+           move matrizmarcaxmes-col(ws-i, 12) to det-dec.
            move vectotalmarca-elem(ws-i) to det-total.
+           display detalle.
+           add 1 to ws-i.
        
        imprimir-totales-mensuales-y-general.
+           display encabezado3.
            move "Totales" to (marca of detalle).
            move vectotalmensual-elem(1) to det-ene.
            move vectotalmensual-elem(2) to det-feb.
