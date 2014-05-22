@@ -9,12 +9,12 @@
        file-control.
        
        select alquileresmae
-           assign to disk "..\..\alquileres.dat"
+           assign to disk "..\..\Archivos\alquileres.dat"
            organization is line sequential
            file status is fs-alquileresmae.
            
        select autos
-           assign to disk "..\..\autos.dat"
+           assign to disk "..\..\Archivos\autos.dat"
            organization is line sequential
            file status is fs-autos.
 
@@ -31,7 +31,6 @@
            03 alq-tipo-doc     pic X.      *> D=DNI, C=CEDULA IDENTIDAD, R=LIBRETA, P=PASAPORTE, L=LICENCIA
            03 alq-nro-doc      pic X(20).
            03 alq-importe      pic 9(4)V99. *> 1234.99
-           03 filler           pic x.
            
            
        fd autos.
@@ -42,7 +41,6 @@
            03 aut-color        pic x(10).
            03 aut-tamano       pic x. *> C=Chico, M=Mediano, G=grande
            03 aut-importe      pic 9(4)v99.
-           03 filler           pic x.
        
        working-storage section.
        
@@ -55,7 +53,7 @@
            88  eofautos                 value "SI".
            
        01 fecha.
-           03  fecha-aaaa       pic 9(4).
+           03  fecha-aaaa      pic 9(4).
            03  fecha-mm        pic 9(2).
            03  fecha-dd        pic 9(2).
            
@@ -63,9 +61,7 @@
        01 ws-sub                  pic 9(3).
        01 ws-total-general        pic 9(5)    value 00000.
        01 ws-indice-marca         pic 9(3).
-       01 ws-indice-mes           pic 9(2).
        01 ws-i                    pic 9(3).
-       01 ws-j                    pic 9(2).
        
        
        01 detalle.
@@ -115,7 +111,7 @@
 
        01 matrizmarcaxmes.
            03  matrizmarcaxmes-fila    occurs 300 times.
-               05  matrizmarcaxmes-col occurs  12 times.
+               05  matrizmarcaxmes-col     occurs  12 times.
                    07  matrizmarcaxmes-elem    pic 9(3) value 000.
        
        01 vecmarcas.
@@ -126,11 +122,11 @@
                05  patente     pic x(6).
                
        01 vectotalmensual.
-           03  vectotalmensual-elem  occurs 12 times pic 9(4).
+           03  vectotalmensual-elem    occurs 12 times pic 9(4).
        
        
        01 vectotalmarca.
-           03  vectotalmarca-elem  occurs 300 times pic 9(4).
+           03  vectotalmarca-elem      occurs 300 times pic 9(4).
            
        procedure division.
            perform abrir-archivos.
