@@ -9,12 +9,12 @@
        file-control.
        
        select alquileresmae
-           assign to disk "..\..\Archivos\alquileres.dat"
+           assign to disk "..\..\Files\alquileres.dat"
            organization is line sequential
            file status is fs-alquileresmae.
            
        select autos
-           assign to disk "..\..\Archivos\autos.dat"
+           assign to disk "..\..\Files\autos.dat"
            organization is line sequential
            file status is fs-autos.
 

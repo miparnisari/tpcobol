@@ -1,5 +1,7 @@
        IDENTIFICATION DIVISION.
-       PROGRAM-ID. Program1.
+       program-id. "TP_Parte1_A".
+       author. "Maria Ines Parnisari - Ignacio Mazzara".
+       date-written. "1er cuatrimestre 2014".
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
@@ -213,9 +215,9 @@
            
        01 ENCABEZADO4.
            03 FILLER PIC X(14) VALUE
-           "        Fecha".
+           "       Fecha".
            03 FILLER PIC X(17) VALUE 
-           "         Tipo Doc".
+           "       Tipo Doc".
            03 FILLER PIC X(21) VALUE 
            "       Nro. Documento".
            03 FILLER PIC X(15) VALUE 
@@ -264,6 +266,8 @@
            
        01 ENCABEZADO9.
            03 FILLER PIC X(80) VALUE SPACES.
+           
+       01 WS-EXIT                       PIC 9(3).
        
        PROCEDURE DIVISION.
            PERFORM INICIALIZAR.
@@ -280,6 +284,7 @@
                SOLICITUDES3-STATUS IS EQUAL TO 10.                 
            PERFORM IMPRIMIR-TOT-GRAL.
            PERFORM CERRAR-ARCHIVOS.
+           ACCEPT WS-EXIT.
            STOP RUN.
            
        INICIALIZAR.
@@ -666,5 +671,3 @@
            MOVE TOTGRAL(1:7) TO  E8-TOTGRALPATENTE-ENTEROS.
            MOVE TOTGRAL(8:2) TO E8-TOTGRALPATENTE-DECIMALES.
            DISPLAY ENCABEZADO8.
-           
-       END PROGRAM Program1.

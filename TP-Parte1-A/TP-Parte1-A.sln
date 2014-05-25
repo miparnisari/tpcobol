@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{535C04D7-A2A5-47C7-83E0-B340A995CD1F}") = "TPALGO4PARTEA", "ConsoleApplication1\TPALGO4PARTEA.cblproj", "{C4F71945-00D6-4F77-98F6-86C8806A8012}"
+Project("{535C04D7-A2A5-47C7-83E0-B340A995CD1F}") = "TP-Parte1-A", "TP-Parte1-A\TP-Parte1-A.cblproj", "{C4F71945-00D6-4F77-98F6-86C8806A8012}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
