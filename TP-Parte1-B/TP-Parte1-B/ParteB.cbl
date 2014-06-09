@@ -17,30 +17,39 @@
            assign to disk "..\..\Files\autos.dat"
            organization is line sequential
            file status is fs-autos.
+       
+       select estadisticas
+           assign to disk "..\..\Files\estadisticas.txt"
+           organization is line sequential
+           file status is fs-estadisticas.
 
        DATA DIVISION.
        file section.
        
-       fd alquileresmae.
+       fd alquileresmae
+           label record is standard.
        01 alquileresmae-rec.
            03 alq-patente      pic X(6).  
            03 alq-fech.
                05  fecha-dd    pic 9(2).
                05  fecha-mm    pic 9(2).
                05  fecha-aa    pic 9(4).
-           03 alq-tipo-doc     pic X.      *> D=DNI, C=CEDULA IDENTIDAD, R=LIBRETA, P=PASAPORTE, L=LICENCIA
-           03 alq-nro-doc      pic X(20).
-           03 alq-importe      pic 9(4)V99. *> 1234.99
+           03 filler           pic x(28).
            
            
-       fd autos.
+       fd autos
+           label record is standard.
        01 autos-rec.
            03 aut-patente      pic x(6).
-           03 aut-desc         pic x(30).
+           03 filler           pic x(30).
            03 aut-marca        pic x(20).
-           03 aut-color        pic x(10).
-           03 aut-tamano       pic x. *> C=Chico, M=Mediano, G=grande
-           03 aut-importe      pic 9(4)v99.
+           03 filler           pic x(18).
+           
+       
+       fd estadisticas
+           label record is standard.
+       01 estadisticas-rec.
+           03 filler           pic x(80).
        
        working-storage section.
        
@@ -51,13 +60,18 @@
        77 fs-autos             pic xx.
        77 autos-eof            pic xx   value "NO".
            88  eofautos                 value "SI".
+       
+       77 fs-estadisticas      pic xx.
            
        01 fecha.
            03  fecha-aaaa      pic 9(4).
            03  fecha-mm        pic 9(2).
            03  fecha-dd        pic 9(2).
-           
+       
+       01 cant-lineas-por-pag     pic 9(2)    value 10.
+       
        01 ws-hoja                 pic 9(3)    value 001.
+       01 ws-nro-linea            pic 9(2)    value 00.
        01 ws-sub                  pic 9(3).
        01 ws-total-general        pic 9(5)    value 00000.
        01 ws-indice-marca         pic 9(3).
@@ -98,7 +112,7 @@
            03  fecha-dd    pic 9(2).
            03  filler      pic x(1)    value "/".
            03  fecha-mm    pic 9(2).
-           03  filer       pic x(1)    value "/".
+           03  filler       pic x(1)   value "/".
            03  fecha-aaaa  pic 9(4).
            03  filler      pic x(50)   value spaces.
            03  filler      pic x(6)    value "Hoja: ".
@@ -142,12 +156,13 @@
        abrir-archivos.
            open input alquileresmae
                        autos.
+           open output estadisticas.
        
        cargar-marcas.
            perform leer-autos.
            
            move 1 to ws-sub.
-           perform cargar-vector-marcas until eofautos OR ws-sub > 300.
+           perform cargar-vector-marcas until eofautos or ws-sub > 300.
            
        
        leer-autos.
@@ -157,7 +172,7 @@
        leer-alquileresmae.
            read alquileresmae record
                at end move "SI" to alquileresmae-eof.
-               
+             
        cargar-vector-marcas.
            set ind to 1.
            search vecmarcas-elem
@@ -176,11 +191,26 @@
            move corresponding fecha to encabezado1.
            move ws-hoja to e1hoja.
            display encabezado1.
+           move encabezado1 to estadisticas-rec.
+           write estadisticas-rec.
+           
            display encabezado2.
+           move encabezado2 to estadisticas-rec.
+           write estadisticas-rec.
+           
            display encabezado3.
+           move encabezado3 to estadisticas-rec.
+           write estadisticas-rec.
+           
            display encabezado4.
+           move encabezado4 to estadisticas-rec.
+           write estadisticas-rec.
+           
            display encabezado5.
-       
+           move encabezado5 to estadisticas-rec.
+           write estadisticas-rec.
+           
+           add 5 to ws-nro-linea.
        
        calcular-estadisticas.
            perform leer-alquileresmae.
@@ -225,10 +255,17 @@
            move matrizmarcaxmes-col(ws-i, 12) to det-dec.
            move vectotalmarca-elem(ws-i) to det-total.
            display detalle.
+           move detalle to estadisticas-rec.
+           write estadisticas-rec.
            add 1 to ws-i.
+           
+           perform chequeo-cambio-pagina.
+
        
        imprimir-totales-mensuales-y-general.
            display encabezado3.
+           move encabezado3 to estadisticas-rec.
+           write estadisticas-rec.
            move "Totales" to (marca of detalle).
            move vectotalmensual-elem(1) to det-ene.
            move vectotalmensual-elem(2) to det-feb.
@@ -244,7 +281,21 @@
            move vectotalmensual-elem(12) to det-dec.
            move ws-total-general to det-total.
            display detalle.
+           move detalle to estadisticas-rec.
+           write estadisticas-rec.
+          
+           perform chequeo-cambio-pagina.
+       
+       chequeo-cambio-pagina.
+           add 1 to ws-nro-linea.
+           
+           if (ws-nro-linea >= cant-lineas-por-pag)
+               move 0 to ws-nro-linea
+               add 1 to ws-hoja
+               perform imprimir-encabezado-estadisticas
+           end-if.
        
        cerrar-archivos.
            close alquileresmae
-                 autos.
+                 autos
+                 estadisticas.
