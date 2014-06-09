@@ -59,7 +59,7 @@
            
        77 fs-autos             pic xx.
        77 autos-eof            pic xx   value "NO".
-           88  eofautos                 value "SI".
+           88  eofautos                 value "SI".    
        
        77 fs-estadisticas      pic xx.
            
@@ -112,11 +112,11 @@
            03  fecha-dd    pic 9(2).
            03  filler      pic x(1)    value "/".
            03  fecha-mm    pic 9(2).
-           03  filler       pic x(1)   value "/".
+           03  filler      pic x(1)   value "/".
            03  fecha-aaaa  pic 9(4).
            03  filler      pic x(50)   value spaces.
            03  filler      pic x(6)    value "Hoja: ".
-           03  e1hoja        pic 9(3).
+           03  e1hoja      pic 9(3).
            
        01 encabezado2      pic x(80)   value "                Listado Estadistico de Alquileres por Mes                 ".
        01 encabezado3      pic x(80)   value all spaces.
@@ -133,7 +133,7 @@
                ascending key is marca
                indexed by ind.
                05  marca       pic x(20).
-               05  patente     pic x(6).
+               05  patente     pic x(6).       *> se usa para luego saber la marca de un auto por su patente
                
        01 vectotalmensual.
            03  vectotalmensual-elem    occurs 12 times pic 9(4).
@@ -171,7 +171,6 @@
        
        cargar-marcas.
            perform leer-autos.
-           
            move 1 to ws-sub.
            perform cargar-vector-marcas until eofautos or ws-sub > 300.
            
@@ -191,8 +190,8 @@
                    move aut-marca to marca of vecmarcas(ws-sub)
                    move aut-patente to patente of vecmarcas(ws-sub)
                    add 1 to ws-sub
-               when aut-marca = marca of vecmarcas(ind) and aut-patente = patente(ind)
-                   *> no hacer nada
+               when aut-marca = marca of vecmarcas(ind)
+                   *> display "marca repetida: " marca of vecmarcas(ind)
            end-search.
            perform leer-autos.
            
