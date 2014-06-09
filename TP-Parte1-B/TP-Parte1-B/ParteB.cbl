@@ -154,8 +154,19 @@
            stop run.
            
        abrir-archivos.
-           open input alquileresmae
-                       autos.
+           open input alquileresmae.
+           if (fs-alquileresmae <> 00)
+               display "Error al abrir archivo de alquileres: " fs-alquileresmae
+               accept ws-sub
+               stop run
+           end-if.
+           open input autos.
+           if (fs-autos <> 00)
+               close alquileresmae
+               display "Error al abrir archivo de autos: " fs-autos
+               accept ws-sub
+               stop run
+           end-if.
            open output estadisticas.
        
        cargar-marcas.
@@ -266,6 +277,9 @@
            display encabezado3.
            move encabezado3 to estadisticas-rec.
            write estadisticas-rec.
+           
+           perform chequeo-cambio-pagina.
+           
            move "Totales" to (marca of detalle).
            move vectotalmensual-elem(1) to det-ene.
            move vectotalmensual-elem(2) to det-feb.
@@ -283,8 +297,6 @@
            display detalle.
            move detalle to estadisticas-rec.
            write estadisticas-rec.
-          
-           perform chequeo-cambio-pagina.
        
        chequeo-cambio-pagina.
            add 1 to ws-nro-linea.
