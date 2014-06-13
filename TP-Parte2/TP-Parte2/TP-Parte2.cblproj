@@ -29,7 +29,8 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuscarCliente.cbl" />
+    <Compile Include="BuscarDatosCliente.cbl" />
+    <Compile Include="ChoferEstaActivo.cbl" />
     <Compile Include="Principal.cbl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Micro Focus\Visual COBOL\v1.0\MicroFocus.COBOL.targets" />

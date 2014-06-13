@@ -1,5 +1,5 @@
        IDENTIFICATION DIVISION.
-       program-id. BuscarCliente.
+       program-id. ChoferEstaActivo.
        author. "Maria Ines Parnisari - Ignacio Mazzara".
        date-written. "1er cuatrimestre 2014".
 
@@ -8,30 +8,30 @@
        input-output section.
        file-control.
        
-       select clientes
-           assign to disk "..\..\Files\clientes.dat"
+       select choferes
+           assign to disk "..\..\Files\choferes.dat"
            organization is indexed
-           access mode is random       *> se busca por numero de doc
-           record key is cli-numero
-           alternate record key is cli-nro-doc
-           file status is fs-clientes.
+           access mode is sequential       *> se busca por numero de doc
+           record key is reg-clave
+           file status is fs-choferes.
 
        DATA DIVISION.
        file section.
        
-       fd clientes
+       fd choferes
            label record is standard.
-       01  reg-clientes.
-           03  cli-numero      pic x(8).
-           03  filler          pic x(28).
-           03  cli-direccion   pic x(30).
-           03  cli-nro-doc     pic x(20).
+       01  reg-choferes.
+           03  reg-clave.
+               05  cho-nro-legajo      pic x(7).
+               05  cho-fecha-desde     pic 9(8).
+           03  cho-fecha-hasta         pic 9(8).
+           03  cho-turno               pic x.
            
        working-storage section.
-       01 fs-clientes          pic xx.
-           88 ok-cli                   value "00".
-           88 no-cli                   value "23".
-           88 eof-cli                  value "10".
+       01 fs-choferes          pic xx.
+           88 ok-cho                   value "00".
+           88 no-cho                   value "23".
+           88 eof-cho                  value "10".
            
            
        linkage section.
@@ -55,9 +55,9 @@
                move cli-numero to out-cli-numero
                move cli-direccion to out-cli-direccion
            else if (no-cli)
-               display "Cliente " cli-nro-doc " NO encontrado"
+               display "Cliente " cli-nro-doc " NO encontrado."
            else if (eof-cli)
-               display "Fin de archivo de clientes"
+               display "Fin de archivo de clientes."
                
            end-if.
            

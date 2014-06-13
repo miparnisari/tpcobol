@@ -118,7 +118,7 @@
            
            perform abrir-archivos.
            *> en algun lado
-           call "BuscarCliente" using alq-nro-doc.
+           call "BuscarDatosCliente" using alq-nro-doc, .
            perform cerrar-archivos.
            
            stop run.
