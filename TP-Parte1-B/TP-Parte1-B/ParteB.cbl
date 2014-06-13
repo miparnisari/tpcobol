@@ -53,15 +53,13 @@
        
        working-storage section.
        
-       77 fs-alquileresmae     pic xx.
-       77 alquileresmae-eof    pic xx   value "NO".
-           88 eofalquileres             value "SI".
+       01 fs-alquileresmae     pic xx.
+           88 eofalquileres             value "10".
            
-       77 fs-autos             pic xx.
-       77 autos-eof            pic xx   value "NO".
-           88  eofautos                 value "SI".    
+       01 fs-autos             pic xx.
+           88  eofautos                 value "10".    
        
-       77 fs-estadisticas      pic xx.
+       01 fs-estadisticas      pic xx.
            
        01 fecha.
            03  fecha-aaaa      pic 9(4).
@@ -176,12 +174,10 @@
            
        
        leer-autos.
-           read autos record
-               at end move "SI" to autos-eof.
+           read autos record.
            
        leer-alquileresmae.
-           read alquileresmae record
-               at end move "SI" to alquileresmae-eof.
+           read alquileresmae record.
              
        cargar-vector-marcas.
            set ind to 1.
@@ -225,7 +221,6 @@
        calcular-estadisticas.
            perform leer-alquileresmae.
            perform proceso until eofalquileres.
-           
        
        proceso.
            set ind to 1.
