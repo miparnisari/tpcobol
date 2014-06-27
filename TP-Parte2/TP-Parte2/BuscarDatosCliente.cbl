@@ -48,11 +48,11 @@
            stop run.
        
        procesar-operacion.
-           if(in-op is equal to "a")
+           if(in-op is equal to "A")
                perform abrir-cliente
-           else if(in-op is equal to "c")
+           else if(in-op is equal to "C")
                perform cerrar-cliente
-           else if(in-op is equal to "p")
+           else if(in-op is equal to "P")
                perform procesar-cliente.
                
        abrir-cliente.

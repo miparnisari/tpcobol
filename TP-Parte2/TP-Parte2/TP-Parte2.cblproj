@@ -5,9 +5,10 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <ProjectGuid>{3E57261E-85A1-432A-B6FE-52B9DB32F6CA}</ProjectGuid>
     <OutputName>TP_Parte2</OutputName>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>TP_Parte2</RootNamespace>
     <MFProjectType>Native</MFProjectType>
+    <StartupObject>Principal</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>.\bin\x86\Debug\</OutputPath>
