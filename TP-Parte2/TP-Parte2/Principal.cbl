@@ -132,6 +132,9 @@
        77 fs-temporal          pic xx.
        77 chof-estado-activo pic xx value 'si'.
        77 chof-estado-inactivo pic xx value 'no'.
+       
+       77 estado-alquiler pic x.
+
        77 op pic x.
 
        PROCEDURE DIVISION.
@@ -183,7 +186,7 @@
            perform cerrar-rechazados.
        
        inicializar-entrada.
-           
+          
        abrir-alquileres.
            open input alquileresmae.
            if is not ok-alq
@@ -212,12 +215,15 @@
            
        procesar-alquileres.
            perform inicializar-procesar-alquileres.
-           perform posicionar-choferes.
-           perform rechazar-alquiler.
+           if alq-estado is equal to "P"
+               perform posicionar-choferes
+           end-if.
+           perform leer-alquileres.
            
        inicializar-procesar-alquileres.   
        
        posicionar-choferes.
+           move chof-estado-inactivo to chof-estado.
            start choferes key is less than cho-clave.
             if ok-chof
                perform leer-choferes
@@ -229,21 +235,30 @@
            else
                display "choferes fs: " fs-choferes
            end-if.
+           if chof-estado is equal to chof-estado-inactivo
+                perform rechazar-alquiler.
+
        
        leer-choferes.
-           read choferes next record.
+           read choferes next record at end move high-value to 
+           cho-clave.
+           if fs-choferes is not equal to 00 and 10
+               display "Error al leer choferes fs:" fs-choferes
+           end-if.
+           
           
            
        inicializar-proceso-choferes.
        procesar-choferes.
            perform actualizar-alquileres.
-           move "p" to op.
+           move "P" to op.
            call "BuscarDatosCliente" using op, alq-nro-doc .
            perform escribir-arch-temporal.
            
        actualizar-alquileres.    
        escribir-arch-temporal.
        rechazar-alquiler.
+           write rec-rechazos.
            
        cerrar-alquileres.
            close alquileresmae.
