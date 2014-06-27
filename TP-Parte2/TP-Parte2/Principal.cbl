@@ -100,7 +100,9 @@
        working-storage section.
        
        01 chof-estado pic xx.
-       
+       01  cli-codigo-estado   pic x(2).   
+       01  cli-numero          pic x(8).  
+       01  cli-direccion       pic x(30).
        01 fs-alquileresmae     pic xx.
            88 ok-alq                    value "00".
            88 no-alq                    value "23".
@@ -110,36 +112,59 @@
            88 ok-chof                   value "00".
            88 no-chof                   value "23".
            88 eof-chof                  value "10".
+       
+       01 fs-rechazados       pic xx.
+           88 ok-rech                   value "00".
+           88 no-rech                  value "23".
+           88 eof-rech                  value "10".
            
        01 fecha-actual.
                05  fecha-actual-dd    pic     99.
                05  fecha-actual-mm    pic     99.
                05  fecha-actual-aaaa  pic     9999.
                
+       01 clave-indice-chofer.
+           03 chofer-actual pic x(7).
+           03 fecha-desde  pic  9(8).
+           
        77 fs-rechazos          pic xx.
        77 fs-listado           pic xx.
        77 fs-temporal          pic xx.
        77 chof-estado-activo pic xx value 'si'.
        77 chof-estado-inactivo pic xx value 'no'.
-       77 chofer-actual pic     x(7).
+       77 op pic x.
 
        PROCEDURE DIVISION.
+           perform inicializar.
            perform abrir-clientes.
            perform abrir-choferes.
-           perform abrir-temporal.
-           perform sort-section.
+      *    perform sort-section.
            perform cerrar-choferes.
            perform cerrar-clientes.
            stop run.
            
+       inicializar.
+       
        abrir-clientes. 
-           call "BuscarDatosCliente" using alq-nro-doc, .
+           move "a" to op.
+           call "BuscarDatosCliente" using op, -1, cli-codigo-estado ,
+              cli-numero, cli-direccion .
 
        abrir-choferes.
-       abrir-temporal.
+           open input choferes.
+           if is not ok-chof
+               display "Error al abrir archivo choferes fs: "
+                 fs-choferes
+               stop run
+               
+           end-if.
+           
        cerrar-choferes.
+           close choferes.
+           
        cerrar-clientes.
-           call "BuscarDatosCliente" using alq-nro-doc, .
+           move "c" to op.
+           call "BuscarDatosCliente" using op , -1 .
 
        
        sort-section.
@@ -147,18 +172,9 @@
                input procedure entrada
                output procedure salida.
            
-       abrir-archivos.
-           open input alquileresmae
-                       choferes.
-                       
-                       
-       cerrar-archivos.
-           close alquileresmae
-                   choferes.
-                   
-                   
        *> ENTRADA SECTION
        entrada.
+           perform inicializar-entrada.
            perform abrir-alquileres.
            perform abrir-rechazados.
            perform leer-alquileres.
@@ -166,28 +182,74 @@
            perform cerrar-alquileres. 
            perform cerrar-rechazados.
        
+       inicializar-entrada.
+           
        abrir-alquileres.
+           open input alquileresmae.
+           if is not ok-alq
+               display "Error al abrir archivo alquileres fs: "
+                 fs-alquileresmae
+               stop run
+           end-if.
+           
        abrir-rechazados.
+           open input rechazos
+           if is not ok-rech
+               display "Error al abrir archivo rechazados fs: "
+                 fs-rechazados
+               stop run
+           end-if.
+           
        leer-alquileres.
+           read alquileresmae record at end move high-value to 
+           alq-chofer.
+           if fs-alquileresmae is not equal to 00 and 10
+               display "Error al leer alquileres fs:" fs-alquileresmae
+           end-if.
+           move alq-chofer to cho-nro-legajo.
+           move alq-fecha  to cho-fecha-desde.
+           
+           
        procesar-alquileres.
-           perform leer-choferes.
-           perform inicializar-proceso-choferes.
-           perform procesar-choferes until eof-chof or cho-fecha-desde 
-           > alq-clave or chof-estado is equal to chof-estado-activo.   
+           perform inicializar-procesar-alquileres.
+           perform posicionar-choferes.
            perform rechazar-alquiler.
            
+       inicializar-procesar-alquileres.   
+       
+       posicionar-choferes.
+           start choferes key is less than cho-clave.
+            if ok-chof
+               perform leer-choferes
+               perform procesar-choferes until eof-chof or 
+                   cho-fecha-desde > alq-clave or chof-estado is
+                   equal to chof-estado-activo
+           else if no-chof
+                   display "no record aplica"
+           else
+               display "choferes fs: " fs-choferes
+           end-if.
+       
        leer-choferes.
+           read choferes next record.
+          
+           
        inicializar-proceso-choferes.
        procesar-choferes.
            perform actualizar-alquileres.
-           call "BuscarDatosCliente" using alq-nro-doc, .
+           move "p" to op.
+           call "BuscarDatosCliente" using op, alq-nro-doc .
            perform escribir-arch-temporal.
            
        actualizar-alquileres.    
        escribir-arch-temporal.
        rechazar-alquiler.
+           
        cerrar-alquileres.
+           close alquileresmae.
+           
        cerrar-rechazados.
+           close rechazos.
        
        *> SALIDA SECTION
        salida.
@@ -199,6 +261,9 @@
            
        abrir-listado.
        leer-temporal.
+           return  temporal record at end move high-value to 
+               temp-fecha.
+           
        procesar-fecha.
            perform procesar-chofer until  fs-temporal is equal to 10 or 
                fecha-actual is not equal to temp-fecha.

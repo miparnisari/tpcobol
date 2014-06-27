@@ -35,18 +35,41 @@
            
            
        linkage section.
-       01  out-codigo-estado       pic x(2).   *> resultado
+       01  in-op                   pic x.      *> parametro
        01  in-cli-nro-doc          pic x(8).   *> parametro
+       01  out-codigo-estado       pic x(2).   *> resultado
        01  out-cli-numero          pic x(8).   *> resultado
        01  out-cli-direccion       pic x(30).  *> resultado
 
-       PROCEDURE DIVISION using in-cli-nro-doc, out-codigo-estado,
-           out-cli-numero, out-cli-direccion.
+       PROCEDURE DIVISION using in-op, in-cli-nro-doc, 
+           out-codigo-estado, out-cli-numero, out-cli-direccion.
+           
+           perform procesar-operacion.
+           stop run.
        
+       procesar-operacion.
+           if(in-op is equal to "a")
+               perform abrir-cliente
+           else if(in-op is equal to "c")
+               perform cerrar-cliente
+           else if(in-op is equal to "p")
+               perform procesar-cliente.
+               
+       abrir-cliente.
+           open input clientes.
+           if is not ok-cli
+               display "Error al abrir archivo clientes fs: "
+                 fs-clientes
+               stop run
+               
+           end-if.
+           
+       cerrar-cliente.
+           close clientes.
+           
+       procesar-cliente.
            move in-cli-nro-doc to cli-nro-doc.
            
-           open input clientes.
-       
            read clientes record
                key is cli-nro-doc.
                
@@ -62,7 +85,3 @@
            end-if.
            
            move fs-clientes to out-codigo-estado.
-           
-           close clientes.
-           
-           stop run.

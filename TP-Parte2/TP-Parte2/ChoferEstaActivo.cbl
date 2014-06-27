@@ -43,26 +43,26 @@
        PROCEDURE DIVISION using in-cli-nro-doc, out-codigo-estado,
            out-cli-numero, out-cli-direccion.
        
-           move in-cli-nro-doc to cli-nro-doc.
-           
-           open input clientes.
-       
-           read clientes record
-               key is cli-nro-doc.
-               
-           if (ok-cli)
-               display "Cliente " cli-nro-doc " encontrado!"
-               move cli-numero to out-cli-numero
-               move cli-direccion to out-cli-direccion
-           else if (no-cli)
-               display "Cliente " cli-nro-doc " NO encontrado."
-           else if (eof-cli)
-               display "Fin de archivo de clientes."
-               
-           end-if.
-           
-           move fs-clientes to out-codigo-estado.
-           
-           close clientes.
-           
-           stop run.
+      *    move in-cli-nro-doc to cli-nro-doc.
+      *    
+      *    open input clientes.
+      *
+      *    read clientes record
+      *        key is cli-nro-doc.
+      *        
+      *    if (ok-cli)
+      *        display "Cliente " cli-nro-doc " encontrado!"
+      *        move cli-numero to out-cli-numero
+      *        move cli-direccion to out-cli-direccion
+      *    else if (no-cli)
+      *        display "Cliente " cli-nro-doc " NO encontrado."
+      *    else if (eof-cli)
+      *        display "Fin de archivo de clientes."
+      *        
+      *    end-if.
+      *    
+      *    move fs-clientes to out-codigo-estado.
+      *    
+      *    close clientes.
+      *    
+      *    stop run.
