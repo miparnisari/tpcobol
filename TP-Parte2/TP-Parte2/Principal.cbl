@@ -82,12 +82,13 @@
        sd temporal
            data record is reg-temporal.
        01  reg-temporal.
-           03  temp-fecha.
-               05  temp-fecha-dd    pic     99.
-               05  temp-fecha-mm    pic     99.
-               05  temp-fecha-aaaa  pic     9999.
-           03  temp-cho-nro-legajo  pic     x(7).
-           03  temp-cho-turno       pic     x.
+           03 temp-clave.
+               05  temp-fecha.
+                   07  temp-fecha-dd    pic     99.
+                   07  temp-fecha-mm    pic     99.
+                   07  temp-fecha-aaaa  pic     9999.
+               05  temp-cho-nro-legajo  pic     x(7).
+               05  temp-cho-turno       pic     x.
            03  temp-cli-numero      pic     x(8).
            03  temp-cli-tipo-doc    pic     x.
            03  temp-cli-nro-doc     pic     x(20).
@@ -95,7 +96,6 @@
            
            
        working-storage section.
-       
        
        01 cli-codigo-estado   pic x(2).   
        01 cli-numero          pic x(8).  
@@ -138,7 +138,7 @@
            03  fecha-actual-aaaa    PIC 9(4).
            03  FILLER               PIC X(50)   VALUE SPACES.
            03  FILLER               PIC X(6)    VALUE "Hoja: ".
-           03  E1-nro-hoja             PIC 9(3).
+           03  E1-nro-hoja          PIC 9(3).
            
        01 ENCABEZADO2.
            03 FILLER PIC x(20) VALUE SPACES.
@@ -198,12 +198,13 @@
        77 tot-fechas                pic 9999       value zeroes.
        77 tot-chof                  pic 9999       value zeroes.
        
-       77 nro-hoja                  pic 9(3)       value zeroes.
+       77 nro-hoja                  pic 9(3)       value 001.
        77 nro-linea                 pic 99         value zeroes.
-       77 lineas-por-hoja           pic 99         value 60.
+       77 lineas-por-hoja           pic 99         value 17.
        
        77 op                        pic x.
        77 contador                  pic 99.
+       01 EndOfFile                pic 9.
 
        PROCEDURE DIVISION.
            perform abrir-clientes.
@@ -238,8 +239,7 @@
 
        
        sort-section.
-           sort temporal ascending key temp-fecha, temp-cho-nro-legajo,
-               temp-cli-numero of reg-temporal
+           sort temporal ascending key temp-clave of reg-temporal
                input procedure entrada
                output procedure salida.
            
@@ -298,9 +298,6 @@
        
        leer-choferes.
            read choferes next record.
-           if fs-choferes <> 00
-               display "Error al leer choferes fs:" fs-choferes
-           end-if.
            
        procesar-choferes.
            if cho-fecha-hasta > alq-fecha
@@ -345,7 +342,7 @@
            perform abrir-listado.
            perform leer-temporal.
            perform escribir-fecha-actual-y-hoja.
-           perform procesar-fecha. 
+           perform procesar-fecha until EndOfFile = 1. 
            perform escribir-tot-gral.
            perform cerrar-listado.  
            
@@ -359,8 +356,8 @@
            end-if.
            
        leer-temporal.
-           return temporal record at end move high-value to 
-               temp-fecha.
+           return temporal record 
+               at end set EndOfFile to 1.
        
        escribir-fecha-actual-y-hoja.
            move function current-date to fecha-actual.
@@ -376,7 +373,8 @@
        procesar-fecha.
            perform inicializar-procesar-fecha.
            perform escribir-fecha-alquiler.
-           perform procesar-chofer until fecha-actual <> temp-fecha.
+           perform procesar-chofer until EndOfFile = 1
+               or fecha-actual <> temp-fecha.                           
            perform escribir-tot-fecha.
            perform hoja-nueva.
        
@@ -395,6 +393,7 @@
            perform escribir-chofer-turno.
            perform escribir-encabezado-cliente.
            perform procesar-cliente until 
+               EndOfFile = 1 or 
                fecha-actual <> temp-fecha of reg-temporal                             
                or chofer-actual <> temp-cho-nro-legajo of reg-temporal.
            perform escribir-tot-chof.
@@ -418,7 +417,7 @@
            display ENCABEZADO6.
            move ENCABEZADO6 to reg-listado.
            write reg-listado.
-           add 8 to nro-linea.
+           add 6 to nro-linea.
        
        procesar-cliente.
            perform escribir-cliente.
@@ -439,7 +438,7 @@
            add 1 to nro-linea.
            
        chequear-hoja-nueva.  
-           if (nro-linea >= lineas-por-hoja)               
+           if (nro-linea > lineas-por-hoja)               
                perform hoja-nueva.
        
        escribir-tot-chof.
@@ -447,24 +446,27 @@
            display ENCABEZADO8.
            move ENCABEZADO8 to reg-listado.
            write reg-listado.
+           add 1 to nro-linea.
            
        escribir-tot-fecha.
            move tot-fechas to E9-TOT-FECHAS.
            display ENCABEZADO9.
            move ENCABEZADO9 to reg-listado.
            write reg-listado.
+           add 1 to nro-linea.
            
        hoja-nueva.
            move nro-linea to contador.
            perform escribir-lineas-en-blanco until contador >=             
                lineas-por-hoja.
            add 1 to nro-hoja.
+           perform escribir-fecha-actual-y-hoja.
            move 0 to nro-linea.
-           
            
        escribir-lineas-en-blanco.
            move spaces to reg-listado.
            write reg-listado.
+           display reg-listado.
            add 1 to contador.
        
        escribir-tot-gral.
