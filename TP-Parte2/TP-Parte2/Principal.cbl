@@ -59,9 +59,10 @@
            03  cho-clave.
                05  cho-nro-legajo  pic x(7).
                05  cho-fecha-desde pic 9(8).
-           03  cho-fecha-hasta pic 9(8).
-           03  cho-turno       pic x.
-               
+           03  cho-fecha-hasta     pic 9(8).
+           03  cho-turno           pic x.
+        
+        
        fd rechazos
            label record is standard.
        01  rec-rechazos.
@@ -86,7 +87,7 @@
                05  temp-fecha-mm    pic     99.
                05  temp-fecha-aaaa  pic     9999.
            03  temp-cho-nro-legajo  pic     x(7).
-           03  temp-cho-turno       pic     x(6). *> "manana", "tarde" etc
+           03  temp-cho-turno       pic     x.
            03  temp-cli-numero      pic     x(8).
            03  temp-cli-tipo-doc    pic     x.
            03  temp-cli-nro-doc     pic     x(20).
@@ -155,7 +156,7 @@
        01 ENCABEZADO4.
            03  FILLER              PIC X(8)    VALUE "Chofer: ".
            03  E4-CHOFER           PIC x(7).
-           03  FILLER              PIC X(10)    VALUE "   Turno: ".
+           03  FILLER              PIC X(10)   VALUE "   Turno: ".
            03  E4-TURNO            PIC x.
            03  FILLER              PIC X(57)   VALUE SPACES.
            
@@ -301,7 +302,6 @@
                display "Error al leer choferes fs:" fs-choferes
            end-if.
            
-       inicializar-proceso-choferes.
        procesar-choferes.
            if cho-fecha-hasta > alq-fecha
                move "si" to chof-estado
@@ -332,6 +332,7 @@
             move alq-nro-doc to rech-nro-doc.
             move alq-importe to rech-importe.
             write rec-rechazos.
+            display "Rechazo: " rec-rechazos.
            
        cerrar-alquileres.
            close alquileresmae.

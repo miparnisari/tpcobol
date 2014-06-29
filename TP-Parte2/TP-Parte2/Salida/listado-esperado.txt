@@ -33,4 +33,4 @@ Chofer: 0000007   Turno: T
    
 Totales por Chofer:    0001
 Totales por Fecha:     0002
-Total general:            000007
+Total general:            000006
