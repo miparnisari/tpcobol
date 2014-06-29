@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{A8B83754-9DEA-4717-925B-57E55355086D}</ProjectGuid>
     <OutputName>CreadorArchivosIndexados</OutputName>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>CreadorArchivosIndexados</RootNamespace>
     <MFProjectType>Native</MFProjectType>
   </PropertyGroup>
@@ -29,8 +29,8 @@
     <Compile Include="Program1.cbl" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ArchivosTextoPlano\" />
     <Folder Include="ArchivosIndexados\" />
+    <Folder Include="ArchivosTextoPlano\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Micro Focus\Visual COBOL\v1.0\MicroFocus.COBOL.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
