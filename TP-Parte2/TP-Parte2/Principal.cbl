@@ -51,9 +51,6 @@
            03 alq-importe      pic 9(4)v99.
            03 alq-chofer       pic x(7).   *> nro de legajo del chofer
            03 alq-estado       pic x.
-               88  alq-estado-terminado    value "T".
-               88  alq-estado-rechazado    value "R".
-               88  alq-estado-presentado   value "P".
                
                
        fd choferes
@@ -64,9 +61,6 @@
                05  cho-fecha-desde pic 9(8).
            03  cho-fecha-hasta pic 9(8).
            03  cho-turno       pic x.
-               88  cho-turno-maniana       value "M".
-               88  cho-turno-tarde         value "T".
-               88  cho-turno-noche         value "N".
                
        fd rechazos
            label record is standard.
@@ -101,7 +95,7 @@
            
        working-storage section.
        
-       01 chof-estado pic xx.
+       
        01 cli-codigo-estado   pic x(2).   
        01 cli-numero          pic x(8).  
        01 cli-direccion       pic x(30).
@@ -126,12 +120,10 @@
            88 eof-rech                 value "10".
            
        01 fecha-actual.
-            03  fecha-actual-dd        pic     99.
-            03  fecha-actual-mm        pic     99.
             03  fecha-actual-aaaa      pic     9999.
-
-            
-               
+            03  fecha-actual-mm        pic     99.
+            03  fecha-actual-dd        pic     99.
+           
        01 clave-indice-chofer.
            03 chofer-actual pic x(7).
            03 fecha-desde  pic  9(8).
@@ -145,12 +137,11 @@
            03  fecha-actual-aaaa    PIC 9(4).
            03  FILLER               PIC X(50)   VALUE SPACES.
            03  FILLER               PIC X(6)    VALUE "Hoja: ".
-           03  nro-hoja             PIC 9(3).
+           03  E1-nro-hoja             PIC 9(3).
            
        01 ENCABEZADO2.
            03 FILLER PIC x(20) VALUE SPACES.
-           03 FILLER PIC X(40) VALUE 
-               "Listado de alquileres aprobados".
+           03 FILLER PIC X(40) VALUE "Listado de alquileres aprobados".
            03 FILLER PIC x(20) VALUE SPACES.   
            
        01 ENCABEZADO3.
@@ -196,21 +187,22 @@
            03  E9-TOT-FECHAS PIC 9999.
            
        01 ENCABEZADO10.
-           03  FILLER PIC X(26) VALUE 
-           "Total general: ".
+           03  FILLER PIC X(26) VALUE  "Total general: ".
            03  E10-TOT-GRAL PIC 999999.
        
-       77 fs-temporal               pic xx.
-       77 chof-estado-activo        pic xx         value 'si'.
-       77 chof-estado-inactivo      pic xx         value 'no'.
+       01 chof-estado               pic xx.
+           88 chof-estado-activo        value 'si'.
+           88 chof-estado-inactivo      value 'no'.
        77 tot-gral                  pic 999999     value zeroes.
        77 tot-fechas                pic 9999       value zeroes.
        77 tot-chof                  pic 9999       value zeroes.
+       
        77 nro-hoja                  pic 9(3)       value zeroes.
        77 nro-linea                 pic 99         value zeroes.
        77 lineas-por-hoja           pic 99         value 60.
-       77 estado-alquiler           pic x.
+       
        77 op                        pic x.
+       77 contador                  pic 99.
 
        PROCEDURE DIVISION.
            perform abrir-clientes.
@@ -282,42 +274,37 @@
            if fs-alquileresmae is not equal to 00 and 10
                display "Error al leer alquileres fs:" fs-alquileresmae
            end-if.
-           move alq-chofer to cho-nro-legajo.
-           
            
        procesar-alquileres.
-           if alq-estado is equal to "P"
+           if alq-estado = "P"
                perform posicionar-choferes.
            perform leer-alquileres.
            
        posicionar-choferes.
-           move chof-estado-inactivo to chof-estado.
+           move alq-chofer to cho-nro-legajo.
+           move "no" to chof-estado.
            move 00000000 to cho-fecha-desde.
+           
            start choferes key >= cho-clave.
            if ok-chof
                perform leer-choferes
                perform procesar-choferes until eof-chof or 
-                   cho-fecha-desde > alq-fecha or 
-                   chof-estado = chof-estado-activo
-           else if no-chof
-                display "no hay choferes"
-           else
-               display "choferes fs: " fs-choferes
+                   cho-fecha-desde > alq-fecha or chof-estado-activo
            end-if.
-           if chof-estado = chof-estado-inactivo
+           if chof-estado-inactivo
                 perform rechazar-alquiler
            end-if.
        
        leer-choferes.
-           read choferes next record at end move high-value to 
-           cho-clave.
-           if fs-choferes is not equal to 00 and 10
+           read choferes next record.
+           if fs-choferes <> 00
                display "Error al leer choferes fs:" fs-choferes
            end-if.
            
        inicializar-proceso-choferes.
        procesar-choferes.
            if cho-fecha-hasta > alq-fecha
+               move "si" to chof-estado
                move "T" to alq-estado
                perform actualizar-alquileres
                move "P" to op
@@ -371,11 +358,13 @@
            end-if.
            
        leer-temporal.
-           return temporal.
+           return temporal record at end move high-value to 
+               temp-fecha.
        
        escribir-fecha-actual-y-hoja.
            move function current-date to fecha-actual.
            move corresponding fecha-actual to ENCABEZADO1.
+           move nro-hoja to E1-nro-hoja.
            display ENCABEZADO1.
            move ENCABEZADO1 to reg-listado.
            write reg-listado.
@@ -449,8 +438,8 @@
            add 1 to nro-linea.
            
        chequear-hoja-nueva.  
-       
-       
+           if (nro-linea >= lineas-por-hoja)               
+               perform hoja-nueva.
        
        escribir-tot-chof.
            move tot-chof to E8-TOT-CHOFER.
@@ -465,7 +454,17 @@
            write reg-listado.
            
        hoja-nueva.
-       
+           move nro-linea to contador.
+           perform escribir-lineas-en-blanco until contador >=             
+               lineas-por-hoja.
+           add 1 to nro-hoja.
+           move 0 to nro-linea.
+           
+           
+       escribir-lineas-en-blanco.
+           move spaces to reg-listado.
+           write reg-listado.
+           add 1 to contador.
        
        escribir-tot-gral.
            move tot-gral to E10-TOT-GRAL.

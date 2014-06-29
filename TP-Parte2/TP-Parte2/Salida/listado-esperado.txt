@@ -16,13 +16,7 @@ Chofer: 0000008   Turno: M
 --------------------------------------------------------------------------------
       00000006          D        25877771               paroissien 4153
 Totales por Chofer:    0001
-
-Chofer: 0000010   Turno: N
-      Cliente       Tipo Doc   Nro. Documento            Direccion
---------------------------------------------------------------------------------
-      00000005          D        5668201               roosevelt 582
-Totales por Chofer:    0001
-Totales por Fecha:     0005
+Totales por Fecha:     0004
 
 **************************************
 Fecha: 15/01/2014
