@@ -9,7 +9,7 @@
        file-control.
        
        select clientes
-           assign to disk "..\..\Files\clientes.dat"
+           assign to disk "..\..\..\Files\clientes.dat"
            organization is indexed
            access mode is random       *> se busca por numero de doc
            record key is cli-numero
@@ -44,25 +44,20 @@
        PROCEDURE DIVISION using in-op, in-cli-nro-doc, 
            out-codigo-estado, out-cli-numero, out-cli-direccion.
            
-           perform procesar-operacion.
-           stop run.
-       
-       procesar-operacion.
-           if(in-op is equal to "A")
-               perform abrir-cliente
-           else if(in-op is equal to "C")
-               perform cerrar-cliente
-           else if(in-op is equal to "P")
+           if (in-op is equal to "A")
+               perform abrir-cliente.
+           if (in-op is equal to "C")
+               perform cerrar-cliente.
+           if (in-op is equal to "P")
                perform procesar-cliente.
+               
+           goback. *> retorna control a Principal
                
        abrir-cliente.
            open input clientes.
-           if is not ok-cli
+           if (is not ok-cli)
                display "Error al abrir archivo clientes fs: "
-                 fs-clientes
-               stop run
-               
-           end-if.
+                 fs-clientes.
            
        cerrar-cliente.
            close clientes.

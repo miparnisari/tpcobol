@@ -9,30 +9,30 @@
        file-control.
        
        select alquileresmae
-           assign to disk "..\..\Files\alquileres.dat"
+           assign to disk "..\..\..\Entrada\alquileres.dat"
            organization is indexed
            record key is alq-clave
            file status is fs-alquileresmae.
            
        select choferes
-           assign to disk "..\..\Files\choferes.dat"
+           assign to disk "..\..\..\Entrada\choferes.dat"
            organization is indexed
            record key is cho-clave
            file status is fs-choferes.
        
        select rechazos
-           assign to disk "..\..\Files\rechazos.txt"
+           assign to disk "..\..\..\Salida\rechazos.txt"
            organization is indexed
            record key is rech-clave
-           file status is fs-rechazos.
+           file status is fs-rechazados.
        
        select listado
-           assign to disk "..\..\Files\listado.txt"
+           assign to disk "..\..\..\Salida\listado.txt"
            organization is line sequential
            file status is fs-listado.
            
        select temporal
-           assign to disk "..\..\Files\listado-temporal.tmp".
+           assign to disk "..\..\..\Salida\listado-temporal.tmp".
            
        
        DATA DIVISION.
@@ -100,28 +100,28 @@
        working-storage section.
        
        01 chof-estado pic xx.
-       01  cli-codigo-estado   pic x(2).   
-       01  cli-numero          pic x(8).  
-       01  cli-direccion       pic x(30).
-       01 fs-alquileresmae     pic xx.
-           88 ok-alq                    value "00".
-           88 no-alq                    value "23".
-           88 eof-alq                   value "10".
+       01 cli-codigo-estado   pic x(2).   
+       01 cli-numero          pic x(8).  
+       01 cli-direccion       pic x(30).
+       01 fs-alquileresmae    pic xx.
+           88 ok-alq                   value "00".
+           88 no-alq                   value "23".
+           88 eof-alq                  value "10".
            
-       01 fs-choferes          pic xx.
-           88 ok-chof                   value "00".
-           88 no-chof                   value "23".
-           88 eof-chof                  value "10".
+       01 fs-choferes         pic xx.
+           88 ok-chof                  value "00".
+           88 no-chof                  value "23".
+           88 eof-chof                 value "10".
            
        01 fs-listado          pic xx.
            88 ok-list                  value "00".
-           88 no-list                   value "23".
-           88 eof-list                  value "10".
+           88 no-list                  value "23".
+           88 eof-list                 value "10".
        
        01 fs-rechazados       pic xx.
-           88 ok-rech                   value "00".
+           88 ok-rech                  value "00".
            88 no-rech                  value "23".
-           88 eof-rech                  value "10".
+           88 eof-rech                 value "10".
            
        01 fecha-actual.
                05  fecha-actual-dd    pic     99.
@@ -202,43 +202,37 @@
            "Totales general: ".
            03  E9-TOT-GRAL PIC 999999.
        
-       77 fs-rechazos          pic xx.
-       77 fs-temporal          pic xx.
-       77 chof-estado-activo pic xx value 'si'.
-       77 chof-estado-inactivo pic xx value 'no'.
-       77 tot-gral pic 999999  value 0.
-       77 tot-fechas pic 9999 value 0.
-       77 tot-chof pic 9999 value 0.
-       77 nro-hoja pic  9(3) value 0.
-       77 nro-linea pic  99 value 0.
-       77 lineas-por-hoja pic 99 value 60.
-       77 estado-alquiler pic x.
-       77 op pic x.
+       77 fs-temporal               pic xx.
+       77 chof-estado-activo        pic xx         value 'si'.
+       77 chof-estado-inactivo      pic xx         value 'no'.
+       77 tot-gral                  pic 999999     value zeroes.
+       77 tot-fechas                pic 9999       value zeroes.
+       77 tot-chof                  pic 9999       value zeroes.
+       77 nro-hoja                  pic 9(3)       value zeroes.
+       77 nro-linea                 pic 99         value zeroes.
+       77 lineas-por-hoja           pic 99         value 60.
+       77 estado-alquiler           pic x.
+       77 op                        pic x.
 
        PROCEDURE DIVISION.
-           perform inicializar.
            perform abrir-clientes.
            perform abrir-choferes.
-      *    perform sort-section.
+           perform sort-section.
            perform cerrar-choferes.
            perform cerrar-clientes.
            stop run.
-           
-       inicializar.
        
        abrir-clientes. 
            move "A" to op.
            call "BuscarDatosCliente" using op, alq-nro-doc, 
-           cli-codigo-estado,                                           
-              cli-numero, cli-direccion .
-
+           cli-codigo-estado, cli-numero, cli-direccion.
+           
        abrir-choferes.
            open input choferes.
            if is not ok-chof
                display "Error al abrir archivo choferes fs: "
                  fs-choferes
                stop run
-               
            end-if.
            
        cerrar-choferes.
@@ -276,7 +270,7 @@
            end-if.
            
        abrir-rechazados.
-           open input rechazos
+           open output rechazos.
            if is not ok-rech
                display "Error al abrir archivo rechazados fs: "
                  fs-rechazados
@@ -285,7 +279,7 @@
            
        leer-alquileres.
            read alquileresmae record at end move high-value to 
-           alq-chofer.
+               alq-chofer.
            if fs-alquileresmae is not equal to 00 and 10
                display "Error al leer alquileres fs:" fs-alquileresmae
            end-if.

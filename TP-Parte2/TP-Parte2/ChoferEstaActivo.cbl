@@ -9,7 +9,7 @@
        file-control.
        
        select choferes
-           assign to disk "..\..\Files\choferes.dat"
+           assign to disk "..\..\..\Files\choferes.dat"
            organization is indexed
            access mode is sequential       *> se busca por numero de doc
            record key is reg-clave

@@ -27,12 +27,17 @@
     <MaxError>100</MaxError>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Files\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BuscarDatosCliente.cbl" />
     <Compile Include="ChoferEstaActivo.cbl" />
     <Compile Include="Principal.cbl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Entrada\alquileres.dat" />
+    <None Include="Entrada\choferes.dat" />
+    <None Include="Entrada\clientes.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Salida\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Micro Focus\Visual COBOL\v1.0\MicroFocus.COBOL.targets" />
 </Project>
