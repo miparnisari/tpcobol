@@ -9,7 +9,7 @@
        file-control.
        
        select clientes
-           assign to disk "..\..\..\Files\clientes.dat"
+           assign to disk "..\..\..\Entrada\clientes.dat"
            organization is indexed
            access mode is random       *> se busca por numero de doc
            record key is cli-numero

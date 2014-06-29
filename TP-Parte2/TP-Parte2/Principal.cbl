@@ -240,7 +240,8 @@
            
        cerrar-clientes.
            move "C" to op.
-           call "BuscarDatosCliente" using op , -1 .
+           call "BuscarDatosCliente" using op, alq-nro-doc, 
+           cli-codigo-estado, cli-numero, cli-direccion.
 
        
        sort-section.
@@ -302,10 +303,10 @@
            if ok-chof
                perform leer-choferes
                perform procesar-choferes until eof-chof or 
-                   cho-fecha-desde > alq-clave or chof-estado is
+                   cho-fecha-desde > alq-fecha or chof-estado is
                    equal to chof-estado-activo
            else if no-chof
-                   display "no record aply"
+                   display "no record apply"
            else
                display "choferes fs: " fs-choferes
            end-if.
@@ -326,12 +327,12 @@
        procesar-choferes.
            if cho-fecha-hasta > alq-fecha
                move "T" to alq-estado
-           end-if.
-           perform actualizar-alquileres.
-           move "P" to op.
-           call "BuscarDatosCliente" using op, alq-nro-doc,
-           cli-codigo-estado, cli-numero, cli-direccion .               
-           perform escribir-arch-temporal.
+               perform actualizar-alquileres
+               move "P" to op
+               call "BuscarDatosCliente" using op, alq-nro-doc,
+                cli-codigo-estado, cli-numero, cli-direccion
+               perform escribir-arch-temporal.
+           perform leer-choferes.
            
        actualizar-alquileres.  
            rewrite rec-alquileresmae.
@@ -377,8 +378,7 @@
            end-if.
            
        leer-temporal.
-           return  temporal record at end move high-value to 
-               temp-fecha.
+           return temporal.
        
        escribir-fecha-actual-y-hoja.
        
