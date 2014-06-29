@@ -1,0 +1,42 @@
+Fecha: 20/14/0629                                                  Hoja:
+                    Listado de alquileres aprobados
+					
+**************************************		
+Fecha: 07/01/2014
+Chofer: 0000006   Turno: T
+      Cliente       Tipo Doc   Nro. Documento            Direccion
+--------------------------------------------------------------------------------
+      00000001          D        36170503               beruti 2060
+      00000002          D        12714568               av cordoba 1525
+      00000007          D        72282384               miralla 2059
+Totales por Chofer:    0003
+
+Chofer: 0000008   Turno: M
+      Cliente       Tipo Doc   Nro. Documento            Direccion
+--------------------------------------------------------------------------------
+      00000006          D        25877771               paroissien 4153
+Totales por Chofer:    0001
+
+Chofer: 0000010   Turno: N
+      Cliente       Tipo Doc   Nro. Documento            Direccion
+--------------------------------------------------------------------------------
+      00000005          D        5668201               roosevelt 582
+Totales por Chofer:    0001
+Totales por Fecha:     0005
+
+**************************************
+Fecha: 15/01/2014
+Chofer: 0000002   Turno: T
+      Cliente       Tipo Doc   Nro. Documento            Direccion
+--------------------------------------------------------------------------------
+     00000007         D           72282384               miralla 2059
+	 
+Chofer: 0000007   Turno: T
+      Cliente       Tipo Doc   Nro. Documento            Direccion
+--------------------------------------------------------------------------------
+     00000006         D           25877771               paroissien 4153
+     
+   
+Totales por Chofer:    0001
+Totales por Fecha:     0002
+Total general:            000007

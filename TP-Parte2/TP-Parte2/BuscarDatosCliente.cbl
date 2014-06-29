@@ -69,7 +69,6 @@
                key is cli-nro-doc.
                
            if (ok-cli)
-               display "Cliente " cli-nro-doc " encontrado!"
                move cli-numero to out-cli-numero
                move cli-direccion to out-cli-direccion
            else if (no-cli)

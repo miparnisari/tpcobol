@@ -11,12 +11,14 @@
        select alquileresmae
            assign to disk "..\..\..\Entrada\alquileres.dat"
            organization is indexed
+           access mode is sequential
            record key is alq-clave
            file status is fs-alquileresmae.
            
        select choferes
            assign to disk "..\..\..\Entrada\choferes.dat"
            organization is indexed
+           access mode is dynamic
            record key is cho-clave
            file status is fs-choferes.
        
@@ -124,83 +126,79 @@
            88 eof-rech                 value "10".
            
        01 fecha-actual.
-               05  fecha-actual-dd    pic     99.
-               05  fecha-actual-mm    pic     99.
-               05  fecha-actual-aaaa  pic     9999.
+            03  fecha-actual-dd        pic     99.
+            03  fecha-actual-mm        pic     99.
+            03  fecha-actual-aaaa      pic     9999.
+
+            
                
        01 clave-indice-chofer.
            03 chofer-actual pic x(7).
            03 fecha-desde  pic  9(8).
            
-       01 encabezado1.
-           03  FILLER      PIC X(9)    VALUE "Fecha: ".
-           03  E1-FECHA-DD    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E1-FECHA-MM    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E1-FECHA-AAAA  PIC 9(4).
-           03  FILLER      PIC X(50)   VALUE SPACES.
-           03  FILLER      PIC X(6)    VALUE "Hoja: ".
-           03  E1-HOJA      PIC 9(3).
+       01 ENCABEZADO1.
+           03  FILLER               PIC X(7)    VALUE "Fecha: ".
+           03  fecha-actual-dd      PIC 9(2).
+           03  FILLER               PIC X       VALUE "/".
+           03  fecha-actual-mm      PIC 9(2).
+           03  FILLER               PIC X       VALUE "/".
+           03  fecha-actual-aaaa    PIC 9(4).
+           03  FILLER               PIC X(50)   VALUE SPACES.
+           03  FILLER               PIC X(6)    VALUE "Hoja: ".
+           03  nro-hoja             PIC 9(3).
            
-       01 encabezado2.
-           03 FILLER PIC x(26) VALUE SPACES.
-           03 FILLER PIC X(38) VALUE 
-               "Listado de alquieres aprobados".
-           03 FILLER PIC x(26) VALUE SPACES.   
+       01 ENCABEZADO2.
+           03 FILLER PIC x(20) VALUE SPACES.
+           03 FILLER PIC X(40) VALUE 
+               "Listado de alquileres aprobados".
+           03 FILLER PIC x(20) VALUE SPACES.   
            
        01 ENCABEZADO3.
-           03  FILLER      PIC X(9)    VALUE "Fecha: ".
-           03  E3-FECHA-DD    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E3-FECHA-MM    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E3-FECHA-AAAA  PIC 9(4).
-           03  FILLER      PIC X(59)   VALUE SPACES.
-           03  FILLER      PIC X(8)    VALUE "Chofer: ".
-           03  E3-CHOFER    PIC x(7).
-           03  FILLER      PIC X(8)    VALUE " Turno: ".
-           03  E3-FECHA-MM    PIC x.
-           03  FILLER      PIC X(59)   VALUE SPACES.
+           03  FILLER              PIC X(7)    VALUE "Fecha: ".
+           03  temp-fecha-dd       PIC 9(2).
+           03  FILLER              PIC X       VALUE "/".
+           03  temp-fecha-mm       PIC 9(2).
+           03  FILLER              PIC X       VALUE "/".
+           03  temp-fecha-aaaa     PIC 9(4).
            
        01 ENCABEZADO4.
-           03 FILLER PIC X(14) VALUE
-           "       Cliente".
-           03 FILLER PIC X(17) VALUE 
-           "       Tipo Doc".
-           03 FILLER PIC X(21) VALUE 
-           "       Nro. Documento".
-           03 FILLER PIC X(17) VALUE 
-           "       Direccion".  
-           03 FILLER PIC X(13) VALUE SPACES.                                                                                                                                                                                                                                          ".
-       
+           03  FILLER              PIC X(8)    VALUE "Chofer: ".
+           03  E4-CHOFER           PIC x(7).
+           03  FILLER              PIC X(10)    VALUE "   Turno: ".
+           03  E4-TURNO            PIC x.
+           03  FILLER              PIC X(57)   VALUE SPACES.
+           
        01 ENCABEZADO5.
+           03 FILLER PIC X(13) VALUE     "      Cliente".
+           03 FILLER PIC X(15) VALUE     "       Tipo Doc".
+           03 FILLER PIC X(17) VALUE     "   Nro. Documento".
+           03 FILLER PIC X(21) VALUE     "            Direccion".                                                                                                                                                                                                                          ".
+       
+       01 ENCABEZADO6.
            03 FILLER PIC X(80) VALUE ALL "-".
            
-       01 ENCABEZADO6.
-           03  FILLER PIC X(6) VALUE SPACES.
-           03  E6-CLIENTE    PIC X(8).
-           03  FILLER PIC X(10) VALUE SPACES.
-           03  E6-TIPODOC    PIC X.
-           03  FILLER PIC X(8) VALUE SPACES.
-           03  E6-NRODOC    PIC X(20).
-           03  FILLER PIC X(6) VALUE SPACES.
-           03  E6-DIRECCION   PIC X(30).
-           
        01 ENCABEZADO7.
-           03  FILLER PIC X(23) VALUE 
-           "Totales por Chofer: ".
-           03  E7-TOT-CHOFER PIC 9999.
-           
+           03  FILLER              PIC X(6)   VALUE SPACES.
+           03  temp-cli-numero     PIC X(8).
+           03  FILLER              PIC X(10)  VALUE SPACES.
+           03  temp-cli-tipo-doc   PIC X.
+           03  FILLER              PIC X(8)   VALUE SPACES.
+           03  temp-cli-nro-doc    PIC X(20).
+           03  FILLER              PIC X(3)   VALUE SPACES.
+           03  temp-cli-direccion  PIC X(30).
+                    
        01 ENCABEZADO8.
-           03  FILLER PIC X(24) VALUE 
-           " Totales por Fecha: ".
+           03  FILLER PIC X(23) VALUE  "Totales por Chofer: ".
            03  E8-TOT-CHOFER PIC 9999.
            
        01 ENCABEZADO9.
+           03  FILLER PIC X(23) VALUE  "Totales por Fecha: ".
+           03  E9-TOT-FECHAS PIC 9999.
+           
+       01 ENCABEZADO10.
            03  FILLER PIC X(26) VALUE 
-           "Totales general: ".
-           03  E9-TOT-GRAL PIC 999999.
+           "Total general: ".
+           03  E10-TOT-GRAL PIC 999999.
        
        77 fs-temporal               pic xx.
        77 chof-estado-activo        pic xx         value 'si'.
@@ -220,6 +218,7 @@
            perform sort-section.
            perform cerrar-choferes.
            perform cerrar-clientes.
+           accept op.
            stop run.
        
        abrir-clientes. 
@@ -232,6 +231,7 @@
            if is not ok-chof
                display "Error al abrir archivo choferes fs: "
                  fs-choferes
+               accept op
                stop run
            end-if.
            
@@ -246,27 +246,25 @@
        
        sort-section.
            sort temporal ascending key temp-fecha, temp-cho-nro-legajo,
-               temp-cli-numero
+               temp-cli-numero of reg-temporal
                input procedure entrada
                output procedure salida.
            
        *> ENTRADA SECTION
        entrada.
-           perform inicializar-entrada.
            perform abrir-alquileres.
            perform abrir-rechazados.
            perform leer-alquileres.
-           perform procesar-alquileres until  eof-alq. 
+           perform procesar-alquileres until eof-alq. 
            perform cerrar-alquileres. 
            perform cerrar-rechazados.
-       
-       inicializar-entrada.
-          
+               
        abrir-alquileres.
            open input alquileresmae.
            if is not ok-alq
                display "Error al abrir archivo alquileres fs: "
                  fs-alquileresmae
+               accept op
                stop run
            end-if.
            
@@ -275,42 +273,38 @@
            if is not ok-rech
                display "Error al abrir archivo rechazados fs: "
                  fs-rechazados
+               accept op
                stop run
            end-if.
            
        leer-alquileres.
-           read alquileresmae record at end move high-value to 
-               alq-chofer.
+           read alquileresmae.
            if fs-alquileresmae is not equal to 00 and 10
                display "Error al leer alquileres fs:" fs-alquileresmae
            end-if.
            move alq-chofer to cho-nro-legajo.
-           move alq-fecha  to cho-fecha-desde.
            
            
        procesar-alquileres.
-           perform inicializar-procesar-alquileres.
            if alq-estado is equal to "P"
-               perform posicionar-choferes
-           end-if.
+               perform posicionar-choferes.
            perform leer-alquileres.
            
-       inicializar-procesar-alquileres.   
-       
        posicionar-choferes.
            move chof-estado-inactivo to chof-estado.
-           start choferes key is less than cho-clave.
+           move 00000000 to cho-fecha-desde.
+           start choferes key >= cho-clave.
            if ok-chof
                perform leer-choferes
                perform procesar-choferes until eof-chof or 
-                   cho-fecha-desde > alq-fecha or chof-estado is
-                   equal to chof-estado-activo
+                   cho-fecha-desde > alq-fecha or 
+                   chof-estado = chof-estado-activo
            else if no-chof
-                   display "no record apply"
+                display "no hay choferes"
            else
                display "choferes fs: " fs-choferes
            end-if.
-           if chof-estado is equal to chof-estado-inactivo
+           if chof-estado = chof-estado-inactivo
                 perform rechazar-alquiler
            end-if.
        
@@ -320,8 +314,6 @@
            if fs-choferes is not equal to 00 and 10
                display "Error al leer choferes fs:" fs-choferes
            end-if.
-           
-          
            
        inicializar-proceso-choferes.
        procesar-choferes.
@@ -339,12 +331,12 @@
            
        escribir-arch-temporal.
            move alq-fecha to temp-fecha.
-           move cho-nro-legajo to temp-cho-nro-legajo.
-           move cho-turno to temp-cho-turno.
-           move cli-numero to temp-cli-numero.
-           move alq-tipo-doc to temp-cli-tipo-doc.
-           move alq-nro-doc to temp-cli-nro-doc.
-           move cli-direccion to temp-cli-direccion.
+           move cho-nro-legajo to temp-cho-nro-legajo of reg-temporal.
+           move cho-turno to temp-cho-turno of reg-temporal.
+           move cli-numero to temp-cli-numero of reg-temporal.
+           move alq-tipo-doc to temp-cli-tipo-doc of reg-temporal.
+           move alq-nro-doc to temp-cli-nro-doc of reg-temporal.
+           move cli-direccion to temp-cli-direccion of reg-temporal.
            release reg-temporal.
            
        rechazar-alquiler.
@@ -365,7 +357,7 @@
            perform abrir-listado.
            perform leer-temporal.
            perform escribir-fecha-actual-y-hoja.
-           perform procesar-fecha until  fs-temporal is equal to 10. 
+           perform procesar-fecha. 
            perform escribir-tot-gral.
            perform cerrar-listado.  
            
@@ -374,6 +366,7 @@
             if is not ok-list
                display "Error al abrir archivo listado fs: "
                  fs-listado
+               accept op
                stop run
            end-if.
            
@@ -381,40 +374,61 @@
            return temporal.
        
        escribir-fecha-actual-y-hoja.
+           move function current-date to fecha-actual.
+           move corresponding fecha-actual to ENCABEZADO1.
+           display ENCABEZADO1.
+           move ENCABEZADO1 to reg-listado.
+           write reg-listado.
+           display ENCABEZADO2.
+           move ENCABEZADO2 to reg-listado.
+           write reg-listado.
        
        procesar-fecha.
            perform inicializar-procesar-fecha.
            perform escribir-fecha-alquiler.
-           perform procesar-chofer until  fs-temporal is equal to 10 or 
-               fecha-actual is not equal to temp-fecha.
+           perform procesar-chofer until fecha-actual <> temp-fecha.
            perform escribir-tot-fecha.
            perform hoja-nueva.
        
        inicializar-procesar-fecha.
           move 0 to tot-fechas.
           move temp-fecha to fecha-actual.
-          
        
        escribir-fecha-alquiler.
+           move corresponding temp-fecha to ENCABEZADO3.
+           display ENCABEZADO3.
+           move ENCABEZADO3 to reg-listado.
+           write reg-listado.
        
        procesar-chofer.
            perform inicializar-procesar-chofer.
            perform escribir-chofer-turno.
            perform escribir-encabezado-cliente.
-           perform procesar-cliente until  fs-temporal is equal to 10 
-           or fecha-actual is not equal to temp-fecha or chofer-actual 
-           is                                                           
-           not equal to temp-cho-nro-legajo.     
+           perform procesar-cliente until 
+               fecha-actual <> temp-fecha of reg-temporal                             
+               or chofer-actual <> temp-cho-nro-legajo of reg-temporal.
            perform escribir-tot-chof.
            perform chequear-hoja-nueva.
        
        inicializar-procesar-chofer.
            move 0 to tot-chof.
-           move temp-cho-nro-legajo to chofer-actual.
+           move temp-cho-nro-legajo of reg-temporal to chofer-actual.
        
        escribir-chofer-turno.
+           move temp-cho-nro-legajo of reg-temporal to E4-CHOFER.
+           move temp-cho-turno of reg-temporal to E4-TURNO.
+           display ENCABEZADO4.
+           move ENCABEZADO4 to reg-listado.
+           write reg-listado.
        
        escribir-encabezado-cliente.
+           display ENCABEZADO5.
+           move ENCABEZADO5 to reg-listado.
+           write reg-listado.
+           display ENCABEZADO6.
+           move ENCABEZADO6 to reg-listado.
+           write reg-listado.
+           add 8 to nro-linea.
        
        procesar-cliente.
            perform escribir-cliente.
@@ -423,15 +437,41 @@
            perform leer-temporal.
            
        escribir-cliente.
+           move corresponding reg-temporal to ENCABEZADO7.
+           display ENCABEZADO7.
+           move ENCABEZADO7 to reg-listado.
+           write reg-listado.
+           
        sumar-totales.
            add 1 to tot-chof.
            add 1 to tot-fechas.
            add 1 to tot-gral.
+           add 1 to nro-linea.
            
        chequear-hoja-nueva.  
+       
+       
+       
        escribir-tot-chof.
+           move tot-chof to E8-TOT-CHOFER.
+           display ENCABEZADO8.
+           move ENCABEZADO8 to reg-listado.
+           write reg-listado.
+           
        escribir-tot-fecha.
+           move tot-fechas to E9-TOT-FECHAS.
+           display ENCABEZADO9.
+           move ENCABEZADO9 to reg-listado.
+           write reg-listado.
+           
        hoja-nueva.
+       
+       
        escribir-tot-gral.
+           move tot-gral to E10-TOT-GRAL.
+           display ENCABEZADO10.
+           move ENCABEZADO10 to reg-listado.
+           write reg-listado.
+           
        cerrar-listado.
            close listado.
