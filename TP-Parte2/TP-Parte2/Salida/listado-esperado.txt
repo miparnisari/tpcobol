@@ -9,14 +9,14 @@ Chofer: 0000006   Turno: T
       00000001          D        36170503               beruti 2060
       00000002          D        12714568               av cordoba 1525
       00000007          D        72282384               miralla 2059
-Totales por Chofer:    0003
+Totales por Chofer:    4000.00
 
 Chofer: 0000008   Turno: M
       Cliente       Tipo Doc   Nro. Documento            Direccion
 --------------------------------------------------------------------------------
       00000006          D        25877771               paroissien 4153
-Totales por Chofer:    0001
-Totales por Fecha:     0004
+Totales por Chofer:    7000.00
+Totales por Fecha:     11000.00
 
 **************************************
 Fecha: 15/01/2014
@@ -24,13 +24,13 @@ Chofer: 0000002   Turno: T
       Cliente       Tipo Doc   Nro. Documento            Direccion
 --------------------------------------------------------------------------------
      00000007         D           72282384               miralla 2059
+Totales por Chofer:    9000.00
 	 
 Chofer: 0000007   Turno: T
       Cliente       Tipo Doc   Nro. Documento            Direccion
 --------------------------------------------------------------------------------
      00000006         D           25877771               paroissien 4153
      
-   
-Totales por Chofer:    0001
-Totales por Fecha:     0002
-Total general:            000006
+Totales por Chofer:    8000.00
+Totales por Fecha:     17000.00
+Total general:         28000.00

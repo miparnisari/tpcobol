@@ -93,6 +93,7 @@
            03  temp-cli-tipo-doc    pic     x.
            03  temp-cli-nro-doc     pic     x(20).
            03  temp-cli-direccion   pic     x(30).
+           03  temp-importe         pic     9(4)v99.
            
            
        working-storage section.
@@ -126,8 +127,8 @@
             03  fecha-actual-dd        pic     99.
            
        01 clave-indice-chofer.
-           03 chofer-actual pic x(7).
-           03 fecha-desde  pic  9(8).
+           03 chofer-actual        pic  x(7).
+           03 fecha-desde          pic  9(8).
            
        01 ENCABEZADO1.
            03  FILLER               PIC X(7)    VALUE "Fecha: ".
@@ -161,13 +162,13 @@
            03  FILLER              PIC X(57)   VALUE SPACES.
            
        01 ENCABEZADO5.
-           03 FILLER PIC X(13) VALUE     "      Cliente".
-           03 FILLER PIC X(15) VALUE     "       Tipo Doc".
-           03 FILLER PIC X(17) VALUE     "   Nro. Documento".
-           03 FILLER PIC X(21) VALUE     "            Direccion".                                                                                                                                                                                                                          ".
+           03 FILLER PIC X(13)     VALUE     "      Cliente".
+           03 FILLER PIC X(15)     VALUE     "       Tipo Doc".
+           03 FILLER PIC X(17)     VALUE     "   Nro. Documento".
+           03 FILLER PIC X(21)     VALUE     "            Direccion".                                                                                                                                                                                                                      ".
        
        01 ENCABEZADO6.
-           03 FILLER PIC X(80) VALUE ALL "-".
+           03 FILLER PIC X(80)     VALUE ALL "-".
            
        01 ENCABEZADO7.
            03  FILLER              PIC X(6)   VALUE SPACES.
@@ -180,31 +181,31 @@
            03  temp-cli-direccion  PIC X(30).
                     
        01 ENCABEZADO8.
-           03  FILLER PIC X(23) VALUE  "Totales por Chofer: ".
-           03  E8-TOT-CHOFER PIC 9999.
+           03  FILLER PIC X(23)    VALUE  "Totales por Chofer: ".
+           03  E8-TOT-CHOFER       PIC 9(5)v99.
            
        01 ENCABEZADO9.
-           03  FILLER PIC X(23) VALUE  "Totales por Fecha: ".
-           03  E9-TOT-FECHAS PIC 9999.
+           03  FILLER PIC X(23)    VALUE  "Totales por Fecha: ".
+           03  E9-TOT-FECHAS       PIC 9(7)v99.
            
        01 ENCABEZADO10.
-           03  FILLER PIC X(26) VALUE  "Total general: ".
-           03  E10-TOT-GRAL PIC 999999.
+           03  FILLER PIC X(26)     VALUE  "Total general: ".
+           03  E10-TOT-GRAL         PIC 9(9)v99.
        
        01 chof-estado               pic xx.
            88 chof-estado-activo        value 'si'.
            88 chof-estado-inactivo      value 'no'.
-       77 tot-gral                  pic 999999     value zeroes.
-       77 tot-fechas                pic 9999       value zeroes.
-       77 tot-chof                  pic 9999       value zeroes.
+       77 tot-gral                  pic 9(9)v99     value zeroes.
+       77 tot-fechas                pic 9(7)v99     value zeroes.
+       77 tot-chof                  pic 9(5)v99     value zeroes.
        
-       77 nro-hoja                  pic 9(3)       value 001.
+       77 nro-hoja                  pic 9(3)       value 1.
        77 nro-linea                 pic 99         value zeroes.
-       77 lineas-por-hoja           pic 99         value 17.
+       77 lineas-por-hoja           pic 99         value 60.
        
        77 op                        pic x.
        77 contador                  pic 99.
-       01 EndOfFile                pic 9.
+       77 EndOfFile                 pic 9.
 
        PROCEDURE DIVISION.
            perform abrir-clientes.
@@ -321,6 +322,7 @@
            move alq-tipo-doc to temp-cli-tipo-doc of reg-temporal.
            move alq-nro-doc to temp-cli-nro-doc of reg-temporal.
            move cli-direccion to temp-cli-direccion of reg-temporal.
+           move alq-importe to temp-importe of reg-temporal.
            release reg-temporal.
            
        rechazar-alquiler.
@@ -373,8 +375,9 @@
        procesar-fecha.
            perform inicializar-procesar-fecha.
            perform escribir-fecha-alquiler.
-           perform procesar-chofer until EndOfFile = 1
-               or fecha-actual <> temp-fecha.                           
+           perform procesar-chofer until 
+               EndOfFile = 1 or
+               fecha-actual <> temp-fecha.                           
            perform escribir-tot-fecha.
            perform hoja-nueva.
        
@@ -432,12 +435,13 @@
            write reg-listado.
            
        sumar-totales.
-           add 1 to tot-chof.
-           add 1 to tot-fechas.
-           add 1 to tot-gral.
+           add temp-importe to tot-chof.
+           add temp-importe to tot-fechas.
+           add temp-importe to tot-gral.
            add 1 to nro-linea.
            
        chequear-hoja-nueva.  
+           
            if (nro-linea > lineas-por-hoja)               
                perform hoja-nueva.
        
