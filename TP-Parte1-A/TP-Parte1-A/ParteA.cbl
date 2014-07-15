@@ -50,12 +50,11 @@
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS LIST-APROBADOS-STATUS.
            
-           SELECT APROBADOS ASSIGN TO PRINTER.
-           
        DATA DIVISION.
        FILE SECTION.
        
-        FD    ALQUILERES LABEL RECORD STANDARD.
+        FD    ALQUILERES 
+            LABEL RECORD STANDARD.
         01    REG-ALQUILERES.
                03 CLAVE-ALQ.
                    05  ALQ-PATENTE   PIC X(6).
@@ -67,14 +66,12 @@
                03  ALQ-NRODOC    PIC X(20).
                03  ALQ-IMPORTE   PIC 9(4)V99.
                
-        FD    NUEVOALQUILERES  LABEL RECORD STANDARD.
+        FD    NUEVOALQUILERES  
+            LABEL RECORD STANDARD.
         01    REG-NUEVOALQUILERES.
                03 CLAVE-NVALQ.
                    05  NUEVOALQ-PATENTE   PIC X(6).
-                   05  NUEVOALQ-FECHA.
-                        07  NUEVOALQ-FECHA-DD   PIC 9(2).
-                        07  NUEVOALQ-FECHA-MM    PIC 9(2).
-                        07  NUEVOALQ-FECHA-AAAA   PIC 9(4).
+                   05  NUEVOALQ-FECHA     PIC 9(8).
                03  NUEVOALQ-TIPODOC   PIC X.
                03  NUEVOALQ-NRODOC    PIC X(20).
                03  NUEVOALQ-IMPORTE   PIC 9(4)V99.
@@ -83,10 +80,7 @@
         01    REG-SOLICITUDES1.
                03 CLAVE-SOL1.
                    05  SOL1-PATENTE   PIC X(6).
-                   05  SOL1-FECHA.
-                        07  ALQ-FECHA-DD   PIC 9(2).
-                        07  ALQ-FECHA-MM    PIC 9(2).
-                        07  ALQ-FECHA-AAAA   PIC 9(4).
+                   05  SOL1-FECHA     PIC 9(8).
                03  SOL1-TIPODOC   PIC X.
                03  SOL1-NRODOC    PIC X(20).
                
@@ -94,10 +88,7 @@
         01    REG-SOLICITUDES2.
                03 CLAVE-SOL2.
                    05  SOL2-PATENTE   PIC X(6).
-                   05  SOL2-FECHA.
-                        07  ALQ-FECHA-DD   PIC 9(2).
-                        07  ALQ-FECHA-MM    PIC 9(2).
-                        07  ALQ-FECHA-AAAA   PIC 9(4).
+                   05  SOL2-FECHA     PIC 9(8).
                03  SOL2-TIPODOC   PIC X.
                03  SOL2-NRODOC    PIC X(20).
                
@@ -105,14 +96,12 @@
         01    REG-SOLICITUDES3.
                03 CLAVE-SOL3.
                    05  SOL3-PATENTE   PIC X(6).
-                   05  SOL3-FECHA.
-                        07   SOL3-FECHA-DD   PIC 9(2).
-                        07   SOL3-FECHA-MM    PIC 9(2).
-                        07   SOL3-FECHA-AAAA   PIC 9(4).
+                   05  SOL3-FECHA     PIC 9(8).
                03  SOL3-TIPODOC   PIC X.
                03  SOL3-NRODOC    PIC X(20).
 
-        FD    AUTOS  LABEL RECORD STANDARD.
+        FD    AUTOS  
+            LABEL RECORD STANDARD.
         01    REG-AUTOS.
                03  AUT-PATENTE   PIC X(6).
                03  AUT-DESC      PIC X(30).
@@ -121,37 +110,33 @@
                03  AUT-TAMAÑO    PIC X.
                03  AUT-IMPORTE   PIC 9(4)V99.
                
-        FD    RECHAZADOS  LABEL RECORD STANDARD.
+        FD    RECHAZADOS  
+            LABEL RECORD STANDARD.
         01    REG-RECHAZADOS.
                03 CLAVE-RECH.
                    05  RECH-PATENTE       PIC X(6).
-                   05  RECH-FECHA.
-                        07   RECH-FECHA-DD   PIC 9(2).
-                        07   RECH-FECHA-MM    PIC 9(2).
-                        07   RECH-FECHA-AAAA   PIC 9(4).
+                   05  RECH-FECHA         PIC 9(8).
                03  RECH-TIPODOC   PIC X.
                03  RECH-NRODOC        PIC X(20).
                03  RECH-MOTIVO        PIC 9.
                03  RECH-AGENCIA       PIC 9.
                
-        FD    APROBADOS  LABEL RECORD OMMITED.
-        01    LINEA-APROBADOS PIC X(80).
-        
-        FD    LIST-APROBADOS  LABEL RECORD OMMITED.
+        FD    LIST-APROBADOS  
+            LABEL RECORD OMMITED.
         01    REG-LIST-APROBADOS PIC X(80).
 
        WORKING-STORAGE SECTION.
        
-       01 VECAUTOS.
-           03 VECAUTOS-ELEMENT OCCURS 300 TIMES
-               ASCENDING KEY IS VECAUT-PATENTE 
-               INDEXED BY INDICE.
-                05  VECAUT-PATENTE   PIC X(6).
-                05  VECAUT-DESC      PIC X(30).
-                05  VECAUT-MARCA     PIC X(20).
-                05  VECAUT-COLOR     PIC X(10).
-                05  VECAUT-TAMAÑO    PIC X.
-                05  VECAUT-IMPORTE   PIC 9(4)V99.
+       01 VECAUTOS 
+             OCCURS 300 TIMES
+             ASCENDING KEY IS VECAUT-PATENTE 
+             INDEXED BY INDICE.
+            03  VECAUT-PATENTE   PIC X(6).
+            03  VECAUT-DESC      PIC X(30).
+            03  VECAUT-MARCA     PIC X(20).
+            03  VECAUT-COLOR     PIC X(10).
+            03  VECAUT-TAMAÑO    PIC X.
+            03  VECAUT-IMPORTE   PIC 9(4)V99.
        
        01 CLAVE-ANTERIOR.
            03  CLVANTERIOR-PATENTE   PIC X(6).
@@ -179,13 +164,18 @@
        77 NUMERO-HOJA PIC 999 VALUE 1.
        77 CANT-LINEAS PIC 99 VALUE 0.
        
+       01 FECHA-DE-HOY.
+           03  FECHA-AAAA      pic 9(4).
+           03  FECHA-MM        pic 9(2).
+           03  FECHA-DD        pic 9(2).
+       
        01 ENCABEZADO1.
            03  FILLER      PIC X(9)    VALUE "Fecha: ".
-           03  E1-FECHA-DD    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E1-FECHA-MM    PIC 9(2).
-           03  FILLER      PIC X    VALUE "/".
-           03  E1-FECHA-AAAA  PIC 9(4).
+           03  FECHA-DD    PIC 9(2).
+           03  FILLER      PIC X       VALUE "/".
+           03  FECHA-MM    PIC 9(2).
+           03  FILLER      PIC X       VALUE "/".
+           03  FECHA-AAAA  PIC 9(4).
            03  FILLER      PIC X(50)   VALUE SPACES.
            03  FILLER      PIC X(6)    VALUE "Hoja: ".
            03  E1-HOJA      PIC 9(3).
@@ -413,9 +403,8 @@
            PERFORM LEER-AUTOS.
            
        IMPRIMIR-ENCABEZADO-1-Y-2.
-           MOVE FUNCTION CURRENT-DATE(7:2) TO E1-FECHA-DD.
-           MOVE FUNCTION CURRENT-DATE(5:2) TO E1-FECHA-MM.
-           MOVE FUNCTION CURRENT-DATE(1:4) TO E1-FECHA-AAAA.
+           MOVE FUNCTION CURRENT-DATE TO FECHA-DE-HOY.
+           MOVE CORRESPONDING FECHA-DE-HOY TO ENCABEZADO1.
            MOVE NUMERO-HOJA TO E1-HOJA.
            DISPLAY ENCABEZADO1.
            DISPLAY ENCABEZADO2.
@@ -462,7 +451,7 @@
            END-IF.
            
        BUSCAR-PATENTE-EN-VEC-AUTOS.
-           SEARCH VECAUTOS-ELEMENT 
+           SEARCH VECAUTOS 
                AT END PERFORM AUTO-NO-ENCONTRADO
            WHEN VECAUT-PATENTE(INDICE) IS EQUAL TO CLVMENOR-PATENTE 
            PERFORM AUTO-ENCONTRADO.
