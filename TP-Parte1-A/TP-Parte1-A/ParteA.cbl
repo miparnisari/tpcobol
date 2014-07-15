@@ -11,42 +11,42 @@
        
        FILE-CONTROL.
            SELECT ALQUILERES ASSIGN TO INPUT
-           "..\..\..\Files\ALQUILERES.dat"
+           "..\..\..\Entrada\ALQUILERES.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS ALQUILERES-STATUS.
            
            SELECT SOLICITUDES1 ASSIGN TO INPUT
-           "..\..\..\Files\SOLICITUDES1.dat"
+           "..\..\..\Entrada\SOLICITUDES1.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS SOLICITUDES1-STATUS.
            
            SELECT SOLICITUDES2 ASSIGN TO INPUT
-           "..\..\..\Files\SOLICITUDES2.dat"
+           "..\..\..\Entrada\SOLICITUDES2.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS SOLICITUDES2-STATUS.
           
            SELECT SOLICITUDES3 ASSIGN TO INPUT
-           "..\..\..\Files\SOLICITUDES3.dat"
+           "..\..\..\Entrada\SOLICITUDES3.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS SOLICITUDES3-STATUS.
            
            SELECT AUTOS ASSIGN TO INPUT
-           "..\..\..\Files\AUTOS.dat"
+           "..\..\..\Entrada\AUTOS.dat"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS AUTOS-STATUS.
            
            SELECT RECHAZADOS ASSIGN TO OUTPUT
-           "..\..\..\Files\RECHAZADOS.dat"
+           "..\..\..\Salida\RECHAZADOS.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS RECHAZADOS-STATUS.
            
            SELECT NUEVOALQUILERES ASSIGN TO OUTPUT
-            "..\..\..\Files\NUEVOALQUILERES.dat"
+            "..\..\..\Salida\NUEVOALQUILERES.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS NUEVOALQUILERES-STATUS.
            
            SELECT LIST-APROBADOS ASSIGN TO OUTPUT
-           "..\..\..\Files\APROBADOS.dat"
+           "..\..\..\Salida\LISTAPROBADOS.txt"
            ORGANIZATION IS LINE SEQUENTIAL
            FILE STATUS IS LIST-APROBADOS-STATUS.
            

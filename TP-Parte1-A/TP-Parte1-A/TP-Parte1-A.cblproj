@@ -16,6 +16,7 @@
     <DebugSymbols>True</DebugSymbols>
     <WarningLevel>2</WarningLevel>
     <MaxError>100</MaxError>
+    <SourceFormat>Free</SourceFormat>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>.\bin\x86\Release\</OutputPath>
@@ -29,12 +30,15 @@
     <Compile Include="ParteA.cbl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\ALQUILERES.dat" />
-    <None Include="Files\AUTOS.dat" />
-    <None Include="Files\RECHAZADOS.dat" />
-    <None Include="Files\SOLICITUDES1.dat" />
-    <None Include="Files\SOLICITUDES2.dat" />
-    <None Include="Files\SOLICITUDES3.dat" />
+    <None Include="Entrada\ALQUILERES.dat" />
+    <None Include="Entrada\AUTOS.dat" />
+    <None Include="Entrada\RECHAZADOS.dat" />
+    <None Include="Entrada\SOLICITUDES1.dat" />
+    <None Include="Entrada\SOLICITUDES2.dat" />
+    <None Include="Entrada\SOLICITUDES3.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Salida\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Micro Focus\Visual COBOL\v1.0\MicroFocus.COBOL.targets" />
 </Project>

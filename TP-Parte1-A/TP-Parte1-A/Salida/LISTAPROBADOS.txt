@@ -1,0 +1,255 @@
+Fecha:   15/07/2014                                                  Hoja: 001
+                          Listado de autos alquilados aprobados
+
+Patente: AAA 088           Descripcion: LADESCRIPCIONDELAUTO
+                           Marca: WOLKSWAGEN
+                           Color: ROJO
+                           Tamaño: G
+
+       Fecha         Tipo Doc         Nro. Documento       Agencia
+--------------------------------------------------------------------------------
+      19/06/1991          D        36170503                   3
+Totales por patente                Cantidad de días 0001      Importe   01000,99
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fecha:   15/07/2014                                                  Hoja: 002
+                          Listado de autos alquilados aprobados
+
+Patente: BAA 088           Descripcion: LADESCRIPCIONDELAUTO
+                           Marca: WOLKSWAGEN
+                           Color: GRIS
+                           Tamaño: G
+
+       Fecha         Tipo Doc         Nro. Documento       Agencia
+--------------------------------------------------------------------------------
+      19/06/1991          D        36170503                   3
+Totales por patente                Cantidad de días 0001      Importe   01000,99
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fecha:   15/07/2014                                                  Hoja: 003
+                          Listado de autos alquilados aprobados
+
+Patente: CAA 088           Descripcion: LADESCRIPCIONDELAUTO
+                           Marca: WOLKSWAGEN
+                           Color: NARANJA
+                           Tamaño: G
+
+       Fecha         Tipo Doc         Nro. Documento       Agencia
+--------------------------------------------------------------------------------
+      19/06/1991          D        36170503                   3
+Totales por patente                Cantidad de días 0001      Importe   01000,99
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fecha:   15/07/2014                                                  Hoja: 004
+                          Listado de autos alquilados aprobados
+
+Patente: HRK 903           Descripcion: LADESCRIPCIONDELAUTO
+                           Marca: WOLKSWAGEN
+                           Color: MAGENTA
+                           Tamaño: G
+
+       Fecha         Tipo Doc         Nro. Documento       Agencia
+--------------------------------------------------------------------------------
+      10/06/1991          D        36170503                   1
+      29/06/1991          D        36170503                   1
+Totales por patente                Cantidad de días 0002      Importe   02011,53
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Fecha:   15/07/2014                                                  Hoja: 005
+                          Listado de autos alquilados aprobados
+
+Patente: ZRI 180           Descripcion: LADESCRIPCIONDELAUTO
+                           Marca: WOLKSWAGEN
+                           Color: AZUL
+                           Tamaño: G
+
+       Fecha         Tipo Doc         Nro. Documento       Agencia
+--------------------------------------------------------------------------------
+      20/06/1991          D        12714568                   2
+Totales por patente                Cantidad de días 0001      Importe   01000,99
+
+
+Totales general                                               Importe 0006015,49
